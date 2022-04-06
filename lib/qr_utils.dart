@@ -9,21 +9,21 @@ class QrUtils {
       const MethodChannel('com.aeologic.adhoc.qr_utils');
 
   // Returns Future<String> after scanning QR code
-  static Future<String> get scanQR async {
-    final String qrContent = await _channel.invokeMethod('scanQR');
+  static Future<String?> get scanQR async {
+    final String? qrContent = await _channel.invokeMethod('scanQR');
     return qrContent;
   }
 
   // Returns Future<Image> after generating QR Image
   static Future<Image> generateQR(String content) async {
     final Uint8List uInt8list =
-        await _channel.invokeMethod('generateQR', {"content": content});
+        await (_channel.invokeMethod('generateQR', {"content": content}) as FutureOr<Uint8List>);
     return imageFromUInt8List(uInt8list);
   }
 
   // Returns Future<Image> after generating QR Image
-  static Future<Uint8List> generateQRByteArray(String content) async {
-    final Uint8List uInt8list =
+  static Future<Uint8List?> generateQRByteArray(String content) async {
+    final Uint8List? uInt8list =
         await _channel.invokeMethod('generateQR', {"content": content});
     return uInt8list;
   }
